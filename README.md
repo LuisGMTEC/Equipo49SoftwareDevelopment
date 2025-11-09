@@ -19,16 +19,18 @@ Levantar el proyecto en **3 sencillos pasos**:
 
 ## 🗂️ Estructura del proyecto
 
+```txt
 ├── .env
 ├── requirements.txt
-├── api
-│    └── main.py
-│ 
-│
-└── frontend  
-    ├── index.html  
-    ├── app.js  
-    └── styles.css  
+├── README.md
+└── src
+    ├── api
+    │    └── main.py
+    └── frontend  
+        ├── index.html  
+        ├── app.js  
+        └── styles.css  
+```
 
 ## ⚙️ Paso 1. Clonar la rama `dev`
 
