@@ -1,3 +1,6 @@
+# ARCHIVO DE CREDENCIALES DE FIREBASE
+MyFirebaseServiceAccountKey.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

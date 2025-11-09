@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Chatbot FAQ + CRUD de Usuarios</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Demo Frontend: Chatbot FAQ & CRUD Usuarios</h1>
+    <p class="subtitle">Integración Frontend (Firebase) + Backend (FastAPI)</p>
+  </header>
+
+  <main class="layout">
+    <!-- ========== SECCIÓN 1: Chatbot FAQ ========== -->
+    <section id="faqSection">
+      <h2>🧠 Chatbot FAQ</h2>
+
+      <div class="filters card">
+        <input id="searchInput" placeholder="Buscar en preguntas/respuestas..." />
+        <input id="tagInput" placeholder="Filtrar por etiqueta (p. ej. seguridad)" />
+        <button id="btnSearch" type="button">Buscar</button>
+        <span id="status"></span>
+      </div>
+
+      <div class="faq-layout">
+        <div class="faq-list card">
+          <h3>Preguntas Frecuentes</h3>
+          <ul id="faqList"></ul>
+        </div>
+
+        <article id="faqDetail" class="card hidden">
+          <h3 id="faqQuestion"></h3>
+          <p id="faqAnswer"></p>
+          <div id="faqTags"></div>
+          <div class="actions">
+            <button id="btnUseful" type="button">👍 Útil</button>
+            <button id="btnNotUseful" type="button">👎 No útil</button>
+          </div>
+          <textarea id="txtComment" placeholder="Comentario opcional..."></textarea>
+          <button id="btnSendFeedback" type="button">Enviar feedback</button>
+        </article>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- ========== SECCIÓN 2: CRUD de Usuarios (FastAPI) ========== -->
+    <section id="crudUsers">
+    <h2>Gestión de Usuarios</h2>
+
+    <!-- Crear Usuario -->
+    <div class="crud-block">
+      <h3>➕ Crear Usuario</h3>
+      <input id="createUserName" placeholder="Nombre" />
+      <input id="createUserEmail" placeholder="Correo" />
+      <button id="btnCreateUser">Crear</button>
+      <p id="statusCreate"></p>
+      <div id="outputCreate" class="output"></div>
+    </div>
+
+    <!-- Obtener Usuario -->
+    <div class="crud-block">
+      <h3>🔍 Obtener Usuario</h3>
+      <input id="fetchUserId" placeholder="ID de usuario" />
+      <button id="btnFetchUser">Buscar</button>
+      <p id="statusFetch"></p>
+      <div id="outputFetch" class="output"></div>
+    </div>
+
+    <!-- Actualizar Usuario -->
+    <div class="crud-block">
+      <h3>✏️ Actualizar Usuario</h3>
+      <input id="updateUserId" placeholder="ID de usuario" />
+      <input id="updateUserName" placeholder="Nuevo nombre" />
+      <input id="updateUserEmail" placeholder="Nuevo correo" />
+      <button id="btnUpdateUser">Actualizar</button>
+      <p id="statusUpdate"></p>
+      <div id="outputUpdate" class="output"></div>
+    </div>
+
+    <!-- Eliminar Usuario -->
+    <div class="crud-block">
+      <h3>🗑️ Eliminar Usuario</h3>
+      <input id="deleteUserId" placeholder="ID de usuario" />
+      <button id="btnDeleteUser">Eliminar</button>
+      <p id="statusDelete"></p>
+      <div id="outputDelete" class="output"></div>
+    </div>
+
+    <!-- Listar Usuarios -->
+    <div class="crud-block">
+      <h3>📋 Listar Usuarios</h3>
+      <button id="btnListUsers">Listar todos</button>
+      <p id="statusList"></p>
+      <div id="outputList" class="output"></div>
+    </div>
+  </section>
+
+  </main>
+
+  <footer>
+    <p>Desarrollado por Equipo 49</p>
+  </footer>
+
+  <!-- Script principal -->
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
