@@ -7,6 +7,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from firebase_admin import credentials, firestore
 from pydantic import BaseModel, Field
+from src.api.rag_service import rag_answer
 
 logger = None
 
@@ -69,6 +70,12 @@ class UserUpdate(BaseModel):
     userName: Optional[str] = Field(default=None)
     userEmail: Optional[str] = Field(default=None)
 
+class RAGRequest(BaseModel):
+    question: str = Field(...)
+
+
+class RAGResponse(BaseModel):
+    answer: str = Field(...)
 
 # --- 3. Inicialización de la Aplicación FastAPI ---
 app = FastAPI(
@@ -229,3 +236,16 @@ def welcome_message():
     Mensaje de bienvenida en el endpoint raíz.
     """
     return {"message": "Welcome to the User CRUD API with Firebase!"}
+
+@app.post("/rag/ask", response_model=RAGResponse, tags=["RAG"])
+def ask_rag(request: RAGRequest):
+    """
+    RAG endpoint: searches FAQ knowledge in Firestore and uses Gemini to produce a final answer.
+    """
+    try:
+        answer = rag_answer(request.question)
+        return RAGResponse(answer=answer)
+
+    except Exception as e:
+        logger.error(f"RAG error: {e}")
+        raise HTTPException(status_code=500, detail=f"RAG error: {str(e)}")
