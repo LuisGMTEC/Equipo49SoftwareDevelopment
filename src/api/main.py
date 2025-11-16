@@ -1,3 +1,4 @@
+import os
 from typing import Optional
 import logging
 import sys
@@ -7,7 +8,10 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from firebase_admin import credentials, firestore
 from pydantic import BaseModel, Field
-from src.api.rag_service import rag_answer
+from src.api.rag_service import rag_answer, rag_answer_using_vector_store
+
+# Cargar .env
+load_dotenv(find_dotenv())
 
 logger = None
 
@@ -30,9 +34,6 @@ def get_logger(logger_name="assistant", level="INFO"):
     return logger
 
 logger = get_logger()
-
-# Cargar .env
-load_dotenv(find_dotenv())
 
 # --- 1. Inicialización de Firebase ---
 # Inicializar Firebase Admin SDK
@@ -245,6 +246,17 @@ def ask_rag(request: RAGRequest):
     try:
         answer = rag_answer(request.question)
         return RAGResponse(answer=answer)
+
+    except Exception as e:
+        logger.error(f"RAG error: {e}")
+        raise HTTPException(status_code=500, detail=f"RAG error: {str(e)}")
+
+
+@app.post("/rag/generate_answer", tags=["RAG"])
+def generate_answer(request: RAGRequest):
+    try:
+        answer = rag_answer_using_vector_store(request.question)
+        return {"llm_generated_answer": answer}
 
     except Exception as e:
         logger.error(f"RAG error: {e}")

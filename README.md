@@ -52,6 +52,15 @@ cd <nombre_del_proyecto>
 ```txt
 GOOGLE_APPLICATION_CREDENTIALS=<RUTA_ABSOLUTA_HACIA_MyFirebaseServiceAccountKey.json>
 ```
+4. En el archivo .env del proyecto, define las variables:
+
+```txt
+VECTOR_STORE_FOLDER_PATH=<RUTA ABSOLUTA HACIA EL FAISS VECTOR STORE>
+```
+
+```txt
+OPENAI_API_KEY=<LA API KEY DE OPENAI>
+```
 
 ⚠️ Importante: Usa ruta absoluta, no relativa.
 
