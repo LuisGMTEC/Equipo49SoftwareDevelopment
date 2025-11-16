@@ -1,0 +1,221 @@
+{
+    "info": {
+        "name": "FastAPI - Users (Firestore) - Test Collection",
+        "_postman_id": "9b6f2e9a-7c2f-4d3a-a51b-1f2e3c4d5e6f",
+        "description": "Colección para probar los endpoints CRUD de tu FastAPI + Firestore. Usa un Environment con la variable `base_url` (e.g. http://127.0.0.1:8000).",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Create user (POST /users/)",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"userName\": \"Luis Ángel\",\n  \"userEmail\": \"luis@example.com\"\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/users/",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "users",
+                        ""
+                    ]
+                }
+            },
+            "response": [],
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 201\", function () {",
+                            "    pm.response.to.have.status(201);",
+                            "});",
+                            "",
+                            "pm.test(\"Response has userId, userName and userEmail\", function () {",
+                            "    const json = pm.response.json();",
+                            "    pm.expect(json).to.have.property('userId');",
+                            "    pm.expect(json).to.have.property('userName');",
+                            "    pm.expect(json).to.have.property('userEmail');",
+                            "});",
+                            "",
+                            "// Guardar el userId en la variable de entorno para usarlo en requests siguientes",
+                            "try {",
+                            "    const json = pm.response.json();",
+                            "    if (json.userId) {",
+                            "        pm.environment.set('created_user_id', json.userId);",
+                            "    }",
+                            "} catch (e) { }"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Get user by id (GET /users/:id)",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/users/{{created_user_id}}",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "users",
+                        "{{created_user_id}}"
+                    ]
+                }
+            },
+            "response": [],
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Response contains userId equal to requested id\", function () {",
+                            "    const json = pm.response.json();",
+                            "    pm.expect(json.userId).to.eql(pm.environment.get('created_user_id'));",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Get all users (GET /users/)",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/users/",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "users",
+                        ""
+                    ]
+                }
+            },
+            "response": [],
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Response is an array\", function () {",
+                            "    const json = pm.response.json();",
+                            "    pm.expect(Array.isArray(json)).to.be.true;",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Update user (PUT /users/:id)",
+            "request": {
+                "method": "PUT",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"userName\": \"Luis Ángel Updated\",\n  \"userEmail\": \"luis.updated@example.com\"\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/users/{{created_user_id}}",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "users",
+                        "{{created_user_id}}"
+                    ]
+                }
+            },
+            "response": [],
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Updated fields are present\", function () {",
+                            "    const json = pm.response.json();",
+                            "    pm.expect(json.userName).to.eql('Luis Ángel Updated');",
+                            "    pm.expect(json.userEmail).to.eql('luis.updated@example.com');",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Delete user (DELETE /users/:id)",
+            "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/users/{{created_user_id}}",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "users",
+                        "{{created_user_id}}"
+                    ]
+                }
+            },
+            "response": [],
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "// DELETE puede retornar 204 No Content según tu implementación",
+                            "pm.test(\"Status code is 204 or 200 (accepted)\", function () {",
+                            "    const status = pm.response.code;",
+                            "    pm.expect([204,200]).to.include(status);",
+                            "});",
+                            "",
+                            "// Limpiar variable de entorno",
+                            "pm.environment.unset('created_user_id');"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ]
+        }
+    ],
+    "event": [],
+    "variable": []
+}
