@@ -97,7 +97,7 @@ pip install -r requirements.txt
 * Desde la raíz del proyecto, ejecuta:
 
 ```bash
-uvicorn src.api.main:app --reload
+uvicorn src.api.main:app --host 127.0.0.1 --port 8000
 ```
 
 ### 2. Frontend (HTML/JS)
@@ -105,16 +105,16 @@ uvicorn src.api.main:app --reload
 * Cambiar directorio a la carpeta frontend
 
 ```bash
-cd frontend
+cd src/frontend/
 ```
 
 * Ejecutar el frontend usando python
 
 ```bash
-python -m http.server
+python -m http.server 8100
 ```
 
-* Visitar: http://127.0.0.1:8000
+* Visitar: http://127.0.0.1:8100
 
 
 
