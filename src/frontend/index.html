@@ -45,6 +45,16 @@
     </section>
 
     <hr class="divider" />
+    <!-- ========== SECCIÓN RAG: Pregunta a tu modelo ========== -->
+    <section id="ragSection" class="card">
+      <h2>🧠 RAG: Consultar Base de Conocimiento</h2>
+
+      <input id="ragInput" placeholder="Escribe tu pregunta..." />
+      <button id="btnAskRag" type="button">Preguntar</button>
+
+      <p id="statusRag"></p>
+      <div id="outputRag"></div>
+    </section>
 
     <!-- ========== SECCIÓN 2: CRUD de Usuarios (FastAPI) ========== -->
     <section id="crudUsers">
@@ -104,6 +114,8 @@
     <p>Desarrollado por Equipo 49</p>
   </footer>
 
+  <!-- Markdown renderer -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <!-- Script principal -->
   <script type="module" src="./app.js"></script>
 </body>

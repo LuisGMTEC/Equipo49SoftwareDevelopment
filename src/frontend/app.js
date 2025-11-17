@@ -369,6 +369,47 @@ btnListUsers.addEventListener("click", async () => {
 });
 
 // ==========================================================
+// 📘 CONSULTAR RAG
+// ==========================================================
+const btnAskRag  = document.getElementById("btnAskRag");
+const ragInput   = document.getElementById("ragInput");
+const statusRag  = document.getElementById("statusRag");
+const outputRag  = document.getElementById("outputRag");
+
+btnAskRag.addEventListener("click", async () => {
+  const question = ragInput.value.trim();
+
+  if (!question) {
+    statusRag.textContent = "⚠️ Escribe una pregunta.";
+    return;
+  }
+
+  statusRag.textContent = "🔄 Consultando RAG...";
+  outputRag.innerHTML = "";
+
+  try {
+    // ✔️ Llamada correcta al endpoint FastAPI
+    const response = await callFastAPI(
+      "/rag/generate_answer",
+      "POST",
+      { question: question }
+    );
+
+    // Tu endpoint regresa: { llm_generated_answer: "texto..." }
+    const markdownText = response.llm_generated_answer;
+
+    const renderedHtml = marked.parse(markdownText);
+
+    statusRag.textContent = "✅ Respuesta recibida";
+    outputRag.innerHTML = `<div class="markdown">${renderedHtml}</div>`;
+
+  } catch (err) {
+    statusRag.textContent = `❌ Error: ${err.message}`;
+  }
+});
+
+
+// ==========================================================
 // 🧩 FUNCIONES DE RENDERIZADO
 // ==========================================================
 function renderUser(user) {

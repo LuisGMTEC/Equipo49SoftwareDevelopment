@@ -1,19 +1,22 @@
-import os
-from typing import Optional
 import logging
+import os
 import sys
+from typing import Optional
+
 import firebase_admin
 from dotenv import find_dotenv, load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from firebase_admin import credentials, firestore
 from pydantic import BaseModel, Field
+
 from src.api.rag_service import rag_answer, rag_answer_using_vector_store
 
 # Cargar .env
 load_dotenv(find_dotenv())
 
 logger = None
+
 
 def get_logger(logger_name="assistant", level="INFO"):
 
@@ -26,12 +29,13 @@ def get_logger(logger_name="assistant", level="INFO"):
         )
         handler = logging.StreamHandler(stream=sys.stdout)
         handler.setFormatter(formatter)
-        #fhdlr = logging.FileHandler("myapp.log")
+        # fhdlr = logging.FileHandler("myapp.log")
         logger.addHandler(handler)
-        #logger.addHandler(fhdlr)
+        # logger.addHandler(fhdlr)
         logger.setLevel(level)
-        
+
     return logger
+
 
 logger = get_logger()
 
@@ -71,12 +75,14 @@ class UserUpdate(BaseModel):
     userName: Optional[str] = Field(default=None)
     userEmail: Optional[str] = Field(default=None)
 
+
 class RAGRequest(BaseModel):
     question: str = Field(...)
 
 
 class RAGResponse(BaseModel):
     answer: str = Field(...)
+
 
 # --- 3. Inicialización de la Aplicación FastAPI ---
 app = FastAPI(
@@ -86,7 +92,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], 
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -237,6 +243,7 @@ def welcome_message():
     Mensaje de bienvenida en el endpoint raíz.
     """
     return {"message": "Welcome to the User CRUD API with Firebase!"}
+
 
 @app.post("/rag/ask", response_model=RAGResponse, tags=["RAG"])
 def ask_rag(request: RAGRequest):
